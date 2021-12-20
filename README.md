@@ -1,6 +1,6 @@
 # Event manager
 
-<img src="Screenshot.png" alt="Event manager logo by Tundzhel" width="3100" height="1800">
+![Event manager](screenshot.png?raw=true "Event manager")
 
 Allows you to list, create and modify events in which all users can see the events but can only edit their own.
 All users can sign up or withdraw from an event.
