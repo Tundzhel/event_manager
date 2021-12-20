@@ -4,7 +4,7 @@ from django import http
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import models
-from django.db.models import BooleanField, Case, Value, When
+from django.db.models import BooleanField, Case, Count, Value, When
 from django.http.response import HttpResponseBase
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -42,14 +42,14 @@ class EventListView(LoginRequiredMixin, ListView):
         """
         Users can see all events and sign up or withdraw but they should only be able to edit their events
         """
-        queryset = self.model.objects.annotate(
+        return self.model.objects.annotate(
             can_edit=Case(
                 When(owner__pk=self.request.user.pk, then=Value(True)),
                 default=Value(False),
                 output_field=BooleanField(),
-            )
+            ),
+            attendance=Count("participants"),
         ).all()
-        return queryset
 
 
 class EventCreateView(
