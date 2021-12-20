@@ -1,5 +1,7 @@
 # Event manager
 
+*Powered by Cookiecutter Django*
+
 ![Event manager](screenshot.png?raw=true "Event manager")
 
 Allows you to list, create and modify events in which all users can see the events but can only edit their own.
