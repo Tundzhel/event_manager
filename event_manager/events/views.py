@@ -42,14 +42,18 @@ class EventListView(LoginRequiredMixin, ListView):
         """
         Users can see all events and sign up or withdraw but they should only be able to edit their events
         """
-        return self.model.objects.annotate(
-            can_edit=Case(
-                When(owner__pk=self.request.user.pk, then=Value(True)),
-                default=Value(False),
-                output_field=BooleanField(),
-            ),
-            attendance=Count("participants"),
-        ).all()
+        return (
+            self.model.objects.select_related("owner")
+            .annotate(
+                can_edit=Case(
+                    When(owner__pk=self.request.user.pk, then=Value(True)),
+                    default=Value(False),
+                    output_field=BooleanField(),
+                ),
+                attendance=Count("participants"),
+            )
+            .order_by("-date")
+        )
 
 
 class EventCreateView(
