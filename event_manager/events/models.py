@@ -71,6 +71,7 @@ class Participation(models.Model):
         verbose_name = _("Participation")
         verbose_name_plural = _("Participations")
         ordering = ["-created_at"]
+        unique_together = ["user", "event"]
 
     def __str__(self):
         return f"{self.event} - {self.user}"
